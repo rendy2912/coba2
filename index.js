@@ -4,8 +4,8 @@ const fetch = require("node-fetch");
 const app = express();
 app.use(express.json());
 
-const TOKEN = "BOT_TOKEN_KAMU";
-const CHAT_ID = "CHAT_ID_KAMU";
+const TOKEN = "8219584591:AAF2Eq47TP3tCJZaesGElowLmIynp_8bxDo";
+const CHAT_ID = "8055056557";
 
 app.post("/telegram", async (req, res) => {
   await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {

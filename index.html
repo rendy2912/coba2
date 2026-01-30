@@ -1,27 +1,19 @@
-// pastikan script benar-benar jalan
-console.log("script.js jalan");
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tebak Hewan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-// ambil elemen
-const startBtn = document.getElementById("startBtn");
-const bgSound = document.getElementById("bgSound");
+<div id="app">
+  <h1>halooo mau main game tebak tebakan gak?</h1>
+  <button id="startBtn">mau!!</button>
+</div>
 
-// cek tombol ketemu atau tidak
-if (!startBtn) {
-  console.error("Tombol startBtn tidak ditemukan!");
-}
+<audio id="bgSound" src="sound-tebakan.mp3" loop></audio>
 
-// event klik tombol
-startBtn.addEventListener("click", () => {
-  console.log("Tombol diklik");
-
-  // mainkan sound (aman untuk HP)
-  bgSound.play().catch(() => {
-    console.log("Audio diblokir browser, tapi game lanjut");
-  });
-
-  // ganti tampilan setelah klik
-  document.getElementById("app").innerHTML = `
-    <h2>🎮 Game dimulai!</h2>
-    <p>Siap menebak hewan? 😄</p>
-  `;
-});
+<script src="script.js"></script>
+</body>
+</html>

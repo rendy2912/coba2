@@ -2,32 +2,32 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tebak Hewan Multiplayer</title>
+  <title>Tebak Hewan Pro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="loginBox" class="panel">
-  <h2>Login Pemain</h2>
+<div id="login" class="card">
+  <h2>🎮 Login Pemain</h2>
   <input id="username" placeholder="Username">
-  <input id="room" placeholder="Room (bebas)">
-  <button onclick="login()">MASUK</button>
+  <input id="room" placeholder="Room">
+  <button onclick="startGame()">MASUK GAME</button>
 </div>
 
-<div id="gameBox" class="panel hidden">
+<div id="game" class="card hidden">
   <h2>🐾 Tebak Hewan</h2>
-  <p id="info"></p>
-  <p id="petunjuk"></p>
+  <p id="status"></p>
+  <p id="hint"></p>
 
-  <input id="jawaban" placeholder="Jawaban...">
-  <button onclick="cekJawaban()">CEK</button>
-  <button onclick="soalBaru()">SOAL BARU</button>
+  <input id="answer" placeholder="Jawaban kamu">
+  <button onclick="checkAnswer()">CEK</button>
+  <button onclick="newQuestion()">SOAL BARU</button>
 
-  <p id="hasil"></p>
-  <h3>Skor: <span id="skor">0</span></h3>
+  <p id="result"></p>
+  <h3>Skor: <span id="score">0</span></h3>
 </div>
 
-<audio id="soundBenar" src="sound-tebakan.mp3"></audio>
+<audio id="sound" src="sound-tebakan.mp3"></audio>
 
 <script src="script.js"></script>
 </body>

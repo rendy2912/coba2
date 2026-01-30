@@ -16,8 +16,12 @@
 
 <div id="game" class="card hidden">
   <h2>🐾 Tebak Hewan</h2>
+
   <p id="status"></p>
   <p id="hint"></p>
+
+  <!-- 🔍 CLUE DITAMBAHKAN -->
+  <p id="clue"></p>
 
   <input id="answer" placeholder="Jawaban kamu">
   <button onclick="checkAnswer()">CEK</button>
@@ -27,7 +31,8 @@
   <h3>Skor: <span id="score">0</span></h3>
 </div>
 
-<audio id="sound" src="sound-tebakan.mp3"></audio>
+<!-- 🔊 AUDIO -->
+<audio id="sound" src="sound-tebakan.mp3" preload="auto"></audio>
 
 <script src="script.js"></script>
 </body>

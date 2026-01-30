@@ -2,14 +2,32 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tebak Hewan</title>
+  <title>Tebak Hewan Multiplayer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="app">
-  <h1>Halo, mau main tebak-tebakan?</h1>
-  <button id="startBtn">mau!!</button>
+<div id="loginBox" class="panel">
+  <h2>Login Pemain</h2>
+  <input id="username" placeholder="Username">
+  <input id="room" placeholder="Room (bebas)">
+  <button onclick="login()">MASUK</button>
 </div>
+
+<div id="gameBox" class="panel hidden">
+  <h2>🐾 Tebak Hewan</h2>
+  <p id="info"></p>
+  <p id="petunjuk"></p>
+
+  <input id="jawaban" placeholder="Jawaban...">
+  <button onclick="cekJawaban()">CEK</button>
+  <button onclick="soalBaru()">SOAL BARU</button>
+
+  <p id="hasil"></p>
+  <h3>Skor: <span id="skor">0</span></h3>
+</div>
+
+<audio id="soundBenar" src="sound-tebakan.mp3"></audio>
 
 <script src="script.js"></script>
 </body>

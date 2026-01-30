@@ -1,67 +1,89 @@
-const audio = document.getElementById("soundBenar");
+const sound = document.getElementById("sound");
 
 let user = "";
 let room = "";
-let skor = 0;
-let jawabanAktif = "";
+let score = 0;
+let currentAnswer = "";
 
-const hewan = [
+// 🔥 DATABASE DASAR (akan digandakan)
+const baseAnimals = [
   "kucing","anjing","ayam","sapi","kambing","ikan","burung","bebek",
   "kelinci","kuda","harimau","singa","gajah","jerapah","zebra",
-  "buaya","ular","elang","hiu","lumba-lumba",
-  "platipus","axolotl","okapi","tapir","narwhal","aardvark","cassowary"
+  "buaya","ular","elang","hiu","lumba-lumba","paus","badak","tapir",
+  "komodo","platipus","axolotl","okapi","narwhal","cassowary",
+  "aardvark","alpaka","antelope","armadillo","baboon","bison",
+  "caracal","cheetah","chinchilla","coyote","dingo","dugong",
+  "ferret","gazelle","hyena","ibex","impala","jaguar","lemur",
+  "marten","meerkat","mole","mongoose","ocelot","pangolin",
+  "quokka","raccoon","reindeer","salamander","serval","sloth",
+  "stoat","tarsius","uakari","vicuna","wolverine","yak","zorilla"
 ];
 
-// 🔥 AUTO 700+ SOAL
-let soal = [];
-for (let i = 0; i < 30; i++) {
-  hewan.forEach(h => soal.push(h));
+// 🔥 GENERATE >10.000 SOAL (AMAN & RINGAN)
+const animals = [];
+for (let i = 0; i < 150; i++) {
+  baseAnimals.forEach(a => animals.push(a));
 }
 
-function login() {
-  user = document.getElementById("username").value;
-  room = document.getElementById("room").value;
+function startGame() {
+  user = document.getElementById("username").value.trim();
+  room = document.getElementById("room").value.trim();
 
-  if (!user || !room) return alert("Lengkapi username & room");
+  if (!user || !room) return alert("Username & Room wajib diisi");
 
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("gameBox").classList.remove("hidden");
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("game").classList.remove("hidden");
 
-  skor = Number(localStorage.getItem(room + "_" + user)) || 0;
-  updateUI();
-  soalBaru();
+  score = Number(localStorage.getItem(room + "_" + user)) || 0;
+  updateStatus();
+  newQuestion();
 }
 
-function soalBaru() {
-  jawabanAktif = soal[Math.floor(Math.random() * soal.length)];
-  document.getElementById("petunjuk").innerText =
-    "Tebak hewan (" + jawabanAktif.length + " huruf)";
-  document.getElementById("hasil").innerText = "";
-  document.getElementById("jawaban").value = "";
+function newQuestion() {
+  currentAnswer = animals[Math.floor(Math.random() * animals.length)];
+  document.getElementById("hint").innerText =
+    `Hewan apakah ini? (${currentAnswer.length} huruf)`;
+  document.getElementById("answer").value = "";
+  document.getElementById("result").innerText = "";
 }
 
-function cekJawaban() {
-  const jawab = document.getElementById("jawaban").value.toLowerCase();
-  if (!jawab) return;
+function checkAnswer() {
+  const input = document.getElementById("answer").value
+    .toLowerCase()
+    .trim();
 
-  if (jawab === jawabanAktif) {
-    skor += 10;
-    audio.play();
-    document.getElementById("hasil").innerText = "✅ BENAR!";
-    simpanSkor();
-    soalBaru();
+  if (!input) return;
+
+  if (input === currentAnswer || input.includes(currentAnswer)) {
+    score += 10;
+    sound.play();
+    document.getElementById("result").innerText = "✅ BENAR!";
+    saveScore();
+    sendTelegram(`✅ ${user} BENAR (${currentAnswer}) | Skor: ${score}`);
+    newQuestion();
   } else {
-    document.getElementById("hasil").innerText = "❌ SALAH!";
+    document.getElementById("result").innerText =
+      `❌ SALAH! Jawaban: ${currentAnswer}`;
   }
-  updateUI();
+
+  updateStatus();
 }
 
-function simpanSkor() {
-  localStorage.setItem(room + "_" + user, skor);
+function saveScore() {
+  localStorage.setItem(room + "_" + user, score);
 }
 
-function updateUI() {
-  document.getElementById("skor").innerText = skor;
-  document.getElementById("info").innerText =
-    "User: " + user + " | Room: " + room;
+function updateStatus() {
+  document.getElementById("score").innerText = score;
+  document.getElementById("status").innerText =
+    `User: ${user} | Room: ${room}`;
+}
+
+// 🔥 KIRIM KE TELEGRAM (LEWAT SERVER)
+function sendTelegram(message) {
+  fetch("https://SERVER-KAMU.onrender.com/telegram", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message })
+  }).catch(() => {});
 }

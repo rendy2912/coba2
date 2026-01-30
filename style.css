@@ -1,23 +1,33 @@
 body {
-  margin: 0;
-  height: 100vh;
-  background: #111;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  padding-top: 40px;
 }
 
-#app {
-  text-align: center;
+.panel {
+  background: #1e293b;
+  width: 320px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #38bdf8;
+}
+
+input, button {
+  width: 90%;
+  padding: 8px;
+  margin: 6px;
+  border-radius: 8px;
+  border: none;
 }
 
 button {
-  padding: 12px 24px;
-  font-size: 18px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  background: #00ffcc;
+  background: #38bdf8;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
 }

@@ -4,6 +4,7 @@ let user = "";
 let room = "";
 let score = 0;
 let currentAnswer = "";
+let currentClue = "";
 
 // 🔥 DATABASE DASAR (akan digandakan)
 const baseAnimals = [
@@ -19,10 +20,22 @@ const baseAnimals = [
   "stoat","tarsius","uakari","vicuna","wolverine","yak","zorilla"
 ];
 
-// 🔥 GENERATE >10.000 SOAL (AMAN & RINGAN)
+// 🔥 GENERATE >10.000 SOAL
 const animals = [];
 for (let i = 0; i < 150; i++) {
   baseAnimals.forEach(a => animals.push(a));
+}
+
+// 🔍 BUAT CLUE MODEL A_am
+function buatClue(jawaban) {
+  if (jawaban.length <= 2) return jawaban;
+
+  let clue = jawaban[0];
+  for (let i = 1; i < jawaban.length - 1; i++) {
+    clue += "_";
+  }
+  clue += jawaban[jawaban.length - 1];
+  return clue;
 }
 
 function startGame() {
@@ -41,8 +54,13 @@ function startGame() {
 
 function newQuestion() {
   currentAnswer = animals[Math.floor(Math.random() * animals.length)];
+  currentClue = buatClue(currentAnswer);
+
   document.getElementById("hint").innerText =
     `Hewan apakah ini? (${currentAnswer.length} huruf)`;
+  document.getElementById("clue").innerText =
+    `Clue: ${currentClue}`;
+
   document.getElementById("answer").value = "";
   document.getElementById("result").innerText = "";
 }
@@ -54,16 +72,37 @@ function checkAnswer() {
 
   if (!input) return;
 
-  if (input === currentAnswer || input.includes(currentAnswer)) {
+  if (input === currentAnswer) {
     score += 10;
     sound.play();
     document.getElementById("result").innerText = "✅ BENAR!";
     saveScore();
-    sendTelegram(`✅ ${user} BENAR (${currentAnswer}) | Skor: ${score}`);
+
+    sendTelegram(
+`🎮 GAME TEBAK HEWAN
+👤 User: ${user}
+🏠 Room: ${room}
+❓ Soal: Hewan ${currentAnswer.length} huruf
+🔍 Clue: ${currentClue}
+✏️ Jawaban: ${input}
+✅ BENAR
+⭐ Skor: ${score}`
+    );
+
     newQuestion();
   } else {
-    document.getElementById("result").innerText =
-      `❌ SALAH! Jawaban: ${currentAnswer}`;
+    document.getElementById("result").innerText = "❌ SALAH! Coba lagi";
+
+    sendTelegram(
+`🎮 GAME TEBAK HEWAN
+👤 User: ${user}
+🏠 Room: ${room}
+❓ Soal: Hewan ${currentAnswer.length} huruf
+🔍 Clue: ${currentClue}
+✏️ Jawaban: ${input}
+❌ SALAH
+⭐ Skor: ${score}`
+    );
   }
 
   updateStatus();

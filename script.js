@@ -156,4 +156,4 @@ Skor: ${score}/${soal.length}
     <b>${userID}</b>
     <p>Skor: ${score}</p>
   `;
-    }
+}
